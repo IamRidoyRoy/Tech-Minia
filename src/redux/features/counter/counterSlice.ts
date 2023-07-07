@@ -1,8 +1,16 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+interface CounterState {
+  count: number;
+}
+
+const initialState: CounterState = {
+  count: 0,
+};
+
 const counterSlice = createSlice({
   name: "count",
-  initialState: { count: 0 },
+  initialState,
   reducers: {
     increment: (state) => {
       state.count = state.count + 1;

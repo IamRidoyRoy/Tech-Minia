@@ -10,12 +10,28 @@ function App() {
   const dispatch = useDispatch();
   return (
     <>
-      <button onClick={() => dispatch(increment())}>Increment</button>
+      <button
+        onClick={() => dispatch(increment())}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold  py-2 px-4 rounded-full	"
+      >
+        Increment
+      </button>
+      <br />
       <h1>Count: {count}</h1>
-      <button onClick={() => dispatch(decrement())}>Decrement</button> <br />
-      <button onClick={() => dispatch(incrementByAmount(5))}>
+      <button
+        onClick={() => dispatch(decrement())}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold  py-2 px-4 rounded-full	"
+      >
+        Decrement
+      </button>{" "}
+      <br />
+      <button
+        onClick={() => dispatch(incrementByAmount(5))}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold  py-2 px-4 rounded-full	"
+      >
         incrementByAmount
       </button>
+      <br />
     </>
   );
 }
