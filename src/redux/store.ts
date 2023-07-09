@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './features/counter/counterSlice';
+// import counterReducer from './features/counter/counterSlice';
 import cartReducer from './features/cart/cartSlice';
 import logger from './middlewares/logger';
 const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    // counter: counterReducer,
     cart: cartReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
