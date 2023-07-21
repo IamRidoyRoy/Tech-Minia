@@ -1,6 +1,9 @@
 import { auth } from '@/lib/firebase.config';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 interface IUserState {
   user: {
     email: string | null;
@@ -31,11 +34,26 @@ export const createUser = createAsyncThunk(
     return data.user.email;
   }
 );
+export const logInUser = createAsyncThunk(
+  'user/logInUser',
+  async ({ email, password }: IAuth) => {
+    const data = await signInWithEmailAndPassword(auth, email, password);
+
+    return data.user.email;
+  }
+);
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state.user.email = action.payload;
+    },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createUser.pending, (state) => {
@@ -50,8 +68,21 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error = action.error.message!;
+      })
+      .addCase(logInUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logInUser.fulfilled, (state, action) => {
+        state.user.email = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(logInUser.rejected, (state, action) => {
+        state.user.email = null;
+        state.isLoading = false;
+        state.isError = true;
+        state.error = action.error.message!;
       });
   },
 });
-
+export const { setUser, setLoading } = userSlice.actions;
 export default userSlice.reducer;
